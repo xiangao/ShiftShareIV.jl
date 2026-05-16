@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Rotemberg Decomposition · ShiftShareIV.jl</title><meta name="title" content="Rotemberg Decomposition · ShiftShareIV.jl"/><meta property="og:title" content="Rotemberg Decomposition · ShiftShareIV.jl"/><meta property="twitter:title" content="Rotemberg Decomposition · ShiftShareIV.jl"/><meta name="description" content="Documentation for ShiftShareIV.jl."/><meta property="og:description" content="Documentation for ShiftShareIV.jl."/><meta property="twitter:description" content="Documentation for ShiftShareIV.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">ShiftShareIV.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><span class="tocitem">Vignettes</span><ul><li><a class="tocitem" href="../01_introduction/">Introduction</a></li><li class="is-active"><a class="tocitem" href>Rotemberg Decomposition</a><ul class="internal"><li><a class="tocitem" href="#Setup"><span>Setup</span></a></li><li><a class="tocitem" href="#Computing-Rotemberg-weights"><span>Computing Rotemberg weights</span></a></li><li><a class="tocitem" href="#The-GPSS-decomposition-identity"><span>The GPSS decomposition identity</span></a></li><li><a class="tocitem" href="#Diagnosing-weight-concentration"><span>Diagnosing weight concentration</span></a></li><li><a class="tocitem" href="#Diagnosing-β_k-heterogeneity"><span>Diagnosing β_k heterogeneity</span></a></li><li><a class="tocitem" href="#What-concentration-looks-like-in-a-bad-case"><span>What concentration looks like in a bad case</span></a></li><li><a class="tocitem" href="#Summary"><span>Summary</span></a></li></ul></li><li><a class="tocitem" href="../03_bhj/">BHJ Shock-Level Inference</a></li></ul></li><li><a class="tocitem" href="../../reference/">Reference</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Vignettes</a></li><li class="is-active"><a href>Rotemberg Decomposition</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Rotemberg Decomposition</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Rotemberg-Decomposition"><a class="docs-heading-anchor" href="#Rotemberg-Decomposition">Rotemberg Decomposition</a><a id="Rotemberg-Decomposition-1"></a><a class="docs-heading-anchor-permalink" href="#Rotemberg-Decomposition" title="Permalink"></a></h1><p>Goldsmith-Pinkham, Sorkin, and Swift (2020) showed that the shift-share IV estimate is numerically equivalent to a weighted average of <span>$K$</span> just-identified IV estimates — one per industry share — where the weights are the <strong>Rotemberg weights</strong> <span>$\alpha_k$</span>.</p><p class="math-container">\[\hat\beta^{SS} = \sum_{k=1}^{K} \alpha_k \hat\beta_k\]</p><p>This decomposition is not just a mathematical curiosity. It tells you <em>which industry shares are doing the identifying work</em> and <em>what the industry-specific IV estimates say</em>. Both pieces of information are needed to evaluate the plausibility of the identifying assumption.</p><h2 id="Setup"><a class="docs-heading-anchor" href="#Setup">Setup</a><a id="Setup-1"></a><a class="docs-heading-anchor-permalink" href="#Setup" title="Permalink"></a></h2><p>Recreate the DGP from the Introduction vignette:</p><pre><code class="language-julia hljs">using ShiftShareIV
+using DataFrames
+using Distributions
+using LinearAlgebra
+using Statistics
+using Random
+using Printf
+
+Random.seed!(2026)
+
+n_loc, n_ind = 500, 20
+beta_true    = 0.5
+
+shares_raw = rand(Gamma(0.3), n_loc, n_ind) .+ 1e-4
+shares     = shares_raw ./ sum(shares_raw, dims=2)
+shocks     = randn(n_ind)
+
+B = bartik_iv(shares, shocks)
+
+u = randn(n_loc)
+X = B .+ 0.3u .+ 0.1randn(n_loc)
+Y = beta_true .* X .+ u .+ 0.3randn(n_loc)
+nothing</code></pre><h2 id="Computing-Rotemberg-weights"><a class="docs-heading-anchor" href="#Computing-Rotemberg-weights">Computing Rotemberg weights</a><a id="Computing-Rotemberg-weights-1"></a><a class="docs-heading-anchor-permalink" href="#Computing-Rotemberg-weights" title="Permalink"></a></h2><pre><code class="language-julia hljs">rw = rotemberg_weights(shares, shocks, X, Y)
+first(rw, 6)</code></pre><div><div style = "float: left;"><span>6×6 DataFrame</span></div><div style = "clear: both;"></div></div><div class = "data-frame" style = "overflow-x: scroll;"><table class = "data-frame" style = "margin-bottom: 6px;"><thead><tr class = "columnLabelRow"><th class = "stubheadLabel" style = "font-weight: bold; text-align: right;">Row</th><th style = "text-align: left;">industry</th><th style = "text-align: left;">shock</th><th style = "text-align: left;">cov_sk_X</th><th style = "text-align: left;">alpha</th><th style = "text-align: left;">beta_k</th><th style = "text-align: left;">alpha_beta</th></tr><tr class = "columnLabelRow"><th class = "stubheadLabel" style = "font-weight: bold; text-align: right;"></th><th title = "Int64" style = "text-align: left;">Int64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th><th title = "Float64" style = "text-align: left;">Float64</th></tr></thead><tbody><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">1</td><td style = "text-align: right;">1</td><td style = "text-align: right;">1.46419</td><td style = "text-align: right;">0.0127075</td><td style = "text-align: right;">0.121865</td><td style = "text-align: right;">0.280284</td><td style = "text-align: right;">0.0341568</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">2</td><td style = "text-align: right;">2</td><td style = "text-align: right;">-1.19502</td><td style = "text-align: right;">-0.00797709</td><td style = "text-align: right;">0.0624372</td><td style = "text-align: right;">0.463344</td><td style = "text-align: right;">0.0289299</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">3</td><td style = "text-align: right;">3</td><td style = "text-align: right;">-1.53541</td><td style = "text-align: right;">-0.0104596</td><td style = "text-align: right;">0.105187</td><td style = "text-align: right;">0.395246</td><td style = "text-align: right;">0.0415747</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">4</td><td style = "text-align: right;">4</td><td style = "text-align: right;">-0.353181</td><td style = "text-align: right;">-0.00103379</td><td style = "text-align: right;">0.00239139</td><td style = "text-align: right;">-2.07992</td><td style = "text-align: right;">-0.0049739</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">5</td><td style = "text-align: right;">5</td><td style = "text-align: right;">-0.996686</td><td style = "text-align: right;">-0.00529917</td><td style = "text-align: right;">0.034593</td><td style = "text-align: right;">0.8911</td><td style = "text-align: right;">0.0308259</td></tr><tr class = "dataRow"><td class = "rowLabel" style = "font-weight: bold; text-align: right;">6</td><td style = "text-align: right;">6</td><td style = "text-align: right;">-1.50548</td><td style = "text-align: right;">-0.0110002</td><td style = "text-align: right;">0.108467</td><td style = "text-align: right;">0.948794</td><td style = "text-align: right;">0.102913</td></tr></tbody></table></div><p>The columns are:</p><ul><li><code>alpha</code>: the Rotemberg weight for industry <span>$k$</span></li><li><code>beta_k</code>: the just-identified IV estimate using <span>$s_{\cdot k}$</span> alone as the instrument</li><li><code>alpha_beta</code>: the <span>$\alpha_k \hat\beta_k$</span> contribution to the overall 2SLS estimate</li></ul><h2 id="The-GPSS-decomposition-identity"><a class="docs-heading-anchor" href="#The-GPSS-decomposition-identity">The GPSS decomposition identity</a><a id="The-GPSS-decomposition-identity-1"></a><a class="docs-heading-anchor-permalink" href="#The-GPSS-decomposition-identity" title="Permalink"></a></h2><p>The sum of the <code>alpha_beta</code> column must exactly equal the 2SLS estimate. Verify:</p><pre><code class="language-julia hljs">Bc = B .- mean(B)
+Xc = X .- mean(X)
+Yc = Y .- mean(Y)
+iv_est = dot(Bc, Yc) / dot(Bc, Xc)
+
+decomp = sum(rw.alpha_beta)
+
+@printf(&quot;2SLS estimate:         %.6f\n&quot;, iv_est)
+@printf(&quot;Σ αₖ βₖ (GPSS):       %.6f\n&quot;, decomp)
+@printf(&quot;Difference:            %.2e\n&quot;,  abs(iv_est - decomp))
+@printf(&quot;Sum of weights (= 1):  %.6f\n&quot;, sum(rw.alpha))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">2SLS estimate:         0.632635
+Σ αₖ βₖ (GPSS):       0.632635
+Difference:            1.11e-16
+Sum of weights (= 1):  1.000000</code></pre><p>The identity holds to machine precision. This is not a coincidence: the GPSS theorem proves it analytically for any shift-share IV.</p><h2 id="Diagnosing-weight-concentration"><a class="docs-heading-anchor" href="#Diagnosing-weight-concentration">Diagnosing weight concentration</a><a id="Diagnosing-weight-concentration-1"></a><a class="docs-heading-anchor-permalink" href="#Diagnosing-weight-concentration" title="Permalink"></a></h2><p>If one or two industries carry most of the weight, the identifying assumption is really a statement about those specific industries&#39; shares — the &quot;average&quot; argument that all <span>$K$</span> shares are exogenous is doing less work than it appears.</p><pre><code class="language-julia hljs">sort!(rw, :alpha, rev=true)
+
+@printf(&quot;%-10s %8s %8s %8s\n&quot;, &quot;Industry&quot;, &quot;α_k&quot;, &quot;β_k&quot;, &quot;Σ (cum)&quot;)
+let cumulative = 0.0
+    for row in eachrow(rw)
+        cumulative += row.alpha
+        @printf(&quot;%-10d %8.4f %8.4f %8.4f\n&quot;,
+                row.industry, row.alpha, row.beta_k, cumulative)
+        cumulative &gt; 0.8 &amp;&amp; break
+    end
+end
+println(&quot;(Industries above explain &gt;80% of Σ αₖ = 1)&quot;)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Industry        α_k      β_k  Σ (cum)
+16           0.2010   0.6635   0.2010
+1            0.1219   0.2803   0.3229
+6            0.1085   0.9488   0.4314
+3            0.1052   0.3952   0.5366
+9            0.0883   0.9116   0.6248
+15           0.0777   0.7576   0.7026
+12           0.0670  -0.0795   0.7696
+2            0.0624   0.4633   0.8320
+(Industries above explain &gt;80% of Σ αₖ = 1)</code></pre><p>In this simulation, multiple industries share the weight (the Dirichlet shares give realistic industry concentration). In real data, a single industry can carry 50% or more of the weight — those industries warrant individual scrutiny.</p><h2 id="Diagnosing-β_k-heterogeneity"><a class="docs-heading-anchor" href="#Diagnosing-β_k-heterogeneity">Diagnosing β_k heterogeneity</a><a id="Diagnosing-β_k-heterogeneity-1"></a><a class="docs-heading-anchor-permalink" href="#Diagnosing-β_k-heterogeneity" title="Permalink"></a></h2><p>Even if weight concentration is acceptable, heterogeneous <span>$\hat\beta_k$</span> values across industries suggest effect heterogeneity (or, more worryingly, violation of the exclusion restriction for some shares):</p><pre><code class="language-julia hljs"># Summary of beta_k across industries
+q10, q50, q90 = quantile(rw.beta_k, [0.1, 0.5, 0.9])
+@printf(&quot;β_k quantiles:  10th=%.3f  50th=%.3f  90th=%.3f\n&quot;, q10, q50, q90)
+@printf(&quot;True β:         %.3f\n&quot;, beta_true)
+@printf(&quot;Std(β_k):       %.3f\n&quot;, std(rw.beta_k))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">β_k quantiles:  10th=-0.250  50th=0.825  90th=1.811
+True β:         0.500
+Std(β_k):       1.105</code></pre><p>In a well-behaved simulation, all <span>$\hat\beta_k$</span> are close to the truth and the spread is sampling noise. In real data, some industries give wildly different estimates, which could reflect:</p><ol><li>Heterogeneous treatment effects by industry</li><li>Endogeneity of specific industry shares</li></ol><p>The <code>alpha</code>-weighted plot makes the diagnostic visual:</p><pre><code class="language-julia hljs"># Print an ASCII weight chart
+sort!(rw, :beta_k)
+@printf(&quot;\n%-10s %6s   %s\n&quot;, &quot;Industry&quot;, &quot;α_k&quot;, &quot;β_k (bar chart, true β=0.50)&quot;)
+for row in eachrow(rw)
+    bar_len = round(Int, max(0, row.beta_k) * 20)
+    bar = &quot;█&quot; ^ bar_len
+    mark = abs(row.alpha) &gt; 0.08 ? &quot; ← high weight&quot; : &quot;&quot;
+    @printf(&quot;%-10d %6.3f   %s%.3f%s\n&quot;,
+            row.industry, row.alpha, bar, row.beta_k, mark)
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">
+Industry      α_k   β_k (bar chart, true β=0.50)
+4           0.002   -2.080
+13          0.001   -1.782
+12          0.067   -0.080
+17          0.012   ███0.160
+1           0.122   ██████0.280 ← high weight
+3           0.105   ████████0.395 ← high weight
+2           0.062   █████████0.463
+16          0.201   █████████████0.664 ← high weight
+15          0.078   ███████████████0.758
+20          0.031   ████████████████0.800
+8           0.023   █████████████████0.851
+5           0.035   ██████████████████0.891
+9           0.088   ██████████████████0.912 ← high weight
+6           0.108   ███████████████████0.949 ← high weight
+18          0.026   ███████████████████0.971
+10          0.016   █████████████████████████1.240
+14          0.010   ███████████████████████████1.369
+7           0.001   ███████████████████████████████████1.766
+11          0.005   ████████████████████████████████████████████2.220
+19          0.007   ████████████████████████████████████████████████████2.610</code></pre><h2 id="What-concentration-looks-like-in-a-bad-case"><a class="docs-heading-anchor" href="#What-concentration-looks-like-in-a-bad-case">What concentration looks like in a bad case</a><a id="What-concentration-looks-like-in-a-bad-case-1"></a><a class="docs-heading-anchor-permalink" href="#What-concentration-looks-like-in-a-bad-case" title="Permalink"></a></h2><p>Artificially give industry 1 a large, negative share that covaries with unobservables. Watch what happens to the Rotemberg weights:</p><pre><code class="language-julia hljs">Random.seed!(11)
+v = randn(n_loc)                          # a new confounder
+shares_bad = copy(shares)
+shares_bad[:, 1] .= max.(0.01, shares[:, 1] .+ 0.4v)   # industry 1 endogenous
+shares_bad = shares_bad ./ sum(shares_bad, dims=2)
+
+B_bad = bartik_iv(shares_bad, shocks)
+X_bad = B_bad .+ 0.3u .+ 0.1randn(n_loc)
+Y_bad = beta_true .* X_bad .+ u .+ 0.6v .+ 0.3randn(n_loc)
+
+Bc_bad = B_bad .- mean(B_bad)
+Xc_bad = X_bad .- mean(X_bad)
+Yc_bad = Y_bad .- mean(Y_bad)
+iv_bad  = dot(Bc_bad, Yc_bad) / dot(Bc_bad, Xc_bad)
+
+rw_bad  = rotemberg_weights(shares_bad, shocks, X_bad, Y_bad)
+rw_bad_sorted = sort(rw_bad, :alpha, rev=true)
+
+@printf(&quot;IV estimate with endogenous share 1: %.3f  (true β = %.3f)\n&quot;,
+        iv_bad, beta_true)
+@printf(&quot;\nTop-3 industries by |α_k|:\n&quot;)
+@printf(&quot;%-10s %8s %8s\n&quot;, &quot;Industry&quot;, &quot;α_k&quot;, &quot;β_k&quot;)
+for row in eachrow(first(rw_bad_sorted, 3))
+    @printf(&quot;%-10d %8.4f %8.4f\n&quot;, row.industry, row.alpha, row.beta_k)
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">IV estimate with endogenous share 1: 1.444  (true β = 0.500)
+
+Top-3 industries by |α_k|:
+Industry        α_k      β_k
+1            0.3658   2.3019
+16           0.1129   0.2648
+3            0.0867   1.0752</code></pre><p>Industry 1 carries a large Rotemberg weight and its <span>$\hat\beta_k$</span> is far from the truth — a clear red flag in the diagnostic output. In a real application, this would prompt either dropping industry 1 from the share construction or switching to the BHJ shock-level strategy.</p><h2 id="Summary"><a class="docs-heading-anchor" href="#Summary">Summary</a><a id="Summary-1"></a><a class="docs-heading-anchor-permalink" href="#Summary" title="Permalink"></a></h2><ul><li><strong>Rotemberg weights</strong> (<span>$\alpha_k$</span>) reveal which industry shares drive the 2SLS estimate.</li><li><strong>Weight concentration</strong> is a risk: the exclusion restriction is really only for the high-weight industries.</li><li><strong>Heterogeneous <span>$\hat\beta_k$</span></strong> warns of effect heterogeneity or share endogeneity.</li><li>The GPSS identity <span>$\hat\beta^{SS} = \sum_k \alpha_k \hat\beta_k$</span> holds exactly — it is a useful numerical check and the foundation of the diagnostic.</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../01_introduction/">« Introduction</a><a class="docs-footer-nextpage" href="../03_bhj/">BHJ Shock-Level Inference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Saturday 16 May 2026 15:10">Saturday 16 May 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
