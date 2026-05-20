@@ -1,6 +1,9 @@
 # ShiftShareIV.jl
 
-Julia toolkit for **shift-share (Bartik) instrumental variables**. Implements the Bartik instrument, the GPSS (2020) Rotemberg weight decomposition, and the BHJ (2022) shock-level collapse for inference.
+`ShiftShareIV.jl` contains the pieces I usually want when working with
+shift-share, or Bartik, instruments: construct the instrument, inspect the
+Goldsmith-Pinkham, Sorkin, and Swift Rotemberg weights, and collapse the data to
+the shock level following Borusyak, Hull, and Jaravel.
 
 ## Installation
 
