@@ -1,8 +1,10 @@
 # ShiftShareIV.jl
 
-`ShiftShareIV.jl` is a Julia toolkit for **shift-share (Bartik) instrumental variables**. It provides three functions that cover the full modern shift-share workflow: constructing the Bartik instrument, diagnosing it via the GPSS (2020) Rotemberg decomposition, and reformulating inference at the shock level following BHJ (2022).
+`ShiftShareIV.jl` contains the three pieces I usually want for shift-share
+instruments: build the Bartik instrument, inspect the GPSS Rotemberg weights,
+and collapse the data to the shock level following BHJ.
 
-## Features
+## Main functions
 
 - **`bartik_iv`**: Construct the Bartik instrument $B_\ell = \sum_k s_{\ell k}\, g_k$ from a shares matrix and a shocks vector.
 - **`rotemberg_weights`**: Decompose the 2SLS estimate into industry-specific just-identified IV estimates and their Rotemberg weights. Verifies the GPSS decomposition identity $\hat\beta^{SS} = \sum_k \alpha_k \hat\beta_k$.
