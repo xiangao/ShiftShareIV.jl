@@ -86,6 +86,7 @@ Run weighted 2SLS on the collapsed data to get the BHJ shock-level estimate.
 - [Introduction](https://xiangao.github.io/ShiftShareIV.jl/dev/vignettes/01_introduction/): Bartik instrument basics and OLS vs IV comparison
 - [Rotemberg Decomposition](https://xiangao.github.io/ShiftShareIV.jl/dev/vignettes/02_rotemberg/): GPSS (2020) weight diagnostics and the decomposition identity
 - [BHJ Shock-Level Inference](https://xiangao.github.io/ShiftShareIV.jl/dev/vignettes/03_bhj/): BHJ (2022) shock-level collapse and inference
+- [Validation: ADH China Shock](https://xiangao.github.io/ShiftShareIV.jl/dev/vignettes/04_adh_validation/): reproduces the Goldsmith-Pinkham–Sorkin–Swift (2020) Rotemberg decomposition on the real Autor–Dorn–Hanson China-shock data, matching the published weights to three decimals
 
 ## References
 

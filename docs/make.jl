@@ -9,6 +9,7 @@ makedocs(
             "Introduction"              => "vignettes/01_introduction.md",
             "Rotemberg Decomposition"   => "vignettes/02_rotemberg.md",
             "BHJ Shock-Level Inference" => "vignettes/03_bhj.md",
+            "Validation: ADH China Shock" => "vignettes/04_adh_validation.md",
         ],
         "Reference" => "reference.md",
     ],
