@@ -39,3 +39,10 @@ julia --project=docs docs/make.jl   # local docs build
 - The `rotemberg_weights` function has two overloads: without `Y` (returns alpha only) and
   with `Y` (also returns beta_k and alpha_beta for the full GPSS decomposition identity).
 - `bhj_collapse` accepts an optional `weights` keyword for location-level size weights.
+- Vignette `docs/src/vignettes/04_adh_validation.md` reproduces the GPSS (2020) Rotemberg
+  decomposition on the real ADH China-shock data, matching published weights to 3 decimals
+  (instrument cor 1.0; neg/pos mass 0.059/0.941; top-5 0.183/0.138/0.085/0.066/0.060). Data
+  ships compactly under `docs/adh_data/` (sparse shares triplets + numeric master, read via
+  `readdlm`; no CSV dep). Two reproduction rules baked into the example: residualize X, Y and
+  every share column on the ADH controls (weighted FWL) before `rotemberg_weights`, and GPSS's
+  weight summary is at the industry level (collapse the two periods).
